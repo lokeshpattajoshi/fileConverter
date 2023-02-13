@@ -27,6 +27,7 @@ import com.opencsv.CSVWriter;
 
 @Service
 public class ConvertXMLToCsvService {
+	
 
 	private static final Logger logger = LoggerFactory.getLogger(ConvertXMLToCsvService.class);
 
@@ -276,6 +277,7 @@ public class ConvertXMLToCsvService {
 		List<String[]> csvData = createCsvDataSimple(outputMap);
 		try {
 			String filePath = csvFilePath + zipFileName +".csv";
+			logger.info("File Path where CSV file will be created is "+filePath);
 	        try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
 	            writer.writeAll(csvData);
 	        }
@@ -290,23 +292,28 @@ public class ConvertXMLToCsvService {
 		int count = 0;
     	List<String> header  = new ArrayList<>();
     	header.add("Id");
+    	//Create Header first
+    	for (Map.Entry<String, List<UserDefineNode>> entry : outputMap.entrySet()) {
+        	List<UserDefineNode> nodeList = entry.getValue();
+        	for(UserDefineNode node: nodeList) {
+        		if(!header.contains(node.getHeader())) {
+            		header.add(node.getHeader());
+        		}
+        	}
+    	}
+    	
+    	//Create values to row
         for (Map.Entry<String, List<UserDefineNode>> entry : outputMap.entrySet()) {
         	List<String> value = new ArrayList<>();
         	String offenderId = entry.getKey();
         	//First column value should be offenderId
         	value.add(offenderId);
-        	List<UserDefineNode> valueList = entry.getValue();
-        	if(count != 0) {
-        		addEmptyValueToList(value, count);
-        	}
-        	count = count+valueList.size();
-        	for(UserDefineNode node: valueList) {
-        		if(header.contains(node.getHeader())) {
-        			value.add(header.indexOf(node.getHeader()), node.getValue());
-        		}else {
-            		header.add(node.getHeader());
-            		value.add(node.getValue());        			
-        		}
+        	List<UserDefineNode> nodeList = entry.getValue();
+        	//Initialize list to empty String
+        	addEmptyValueToList(value, header.size());
+        	for(UserDefineNode node: nodeList) {
+    			int index = header.indexOf(node.getHeader());
+    			value.set(index, node.getValue());
         	}
             String[] valueArr = value.toArray(new String[value.size()]);        	
         	outputList.add(valueArr);
@@ -317,7 +324,7 @@ public class ConvertXMLToCsvService {
 	}
 	
 	private void addEmptyValueToList(List<String> value, int count) {
-		for(int i=0;i<count; i++) {
+		for(int i=1;i<count; i++) {
 			value.add("");
 		}
 	}
