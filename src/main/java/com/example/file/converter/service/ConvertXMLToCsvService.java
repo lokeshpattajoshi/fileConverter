@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -102,7 +103,11 @@ public class ConvertXMLToCsvService {
 		}
 				
         //write to CSV File
-        writeToCsvFile(outputMap);
+		//Sort it using ascending order
+		TreeMap<String, List<UserDefineNode>> sortedMap = new TreeMap<String, List<UserDefineNode>>();
+
+		sortedMap.putAll(outputMap);
+        writeToCsvFile(sortedMap);
         
 		logger.info("Processing end...............................");
 
@@ -227,7 +232,7 @@ public class ConvertXMLToCsvService {
           			  
           			  String nodeName = elemNode.getNodeName();
           	      	  String value = elemNode.getTextContent();
-
+          	      	  //We have logic below to read all the duplicate elements if there is any so below logic is to skip we find it again
           	      	  if(duplicateList.contains(nodeName)) {
           	      		  continue;
           	      	  }
