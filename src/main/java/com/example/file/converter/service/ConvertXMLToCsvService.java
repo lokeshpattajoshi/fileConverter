@@ -5,10 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -101,10 +105,49 @@ public class ConvertXMLToCsvService {
 		}catch(Exception e) {
 			logger.error("Error while reading file names from Manifiest file..Existing."+e.getMessage());
 		}
-				
+
+		//Custom Sorting based on key of TreeMap        
+		final Pattern p = Pattern.compile("^\\d+");
+        Comparator<String> customSort = new Comparator<String>() {
+            @Override
+            public int compare(String object1, String object2) {
+                Matcher m = p.matcher(object1);
+                Integer number1 = null;
+                if (!m.find()) {
+                    Matcher m1 = p.matcher(object2);
+                    if (m1.find()) {
+                        return object2.compareTo(object1);
+                    } else {
+                        return object1.compareTo(object2);
+                    }
+                } else {
+                    Integer number2 = null;
+                    number1 = Integer.parseInt(m.group());
+                    m = p.matcher(object2);
+                    if (!m.find()) {
+                        // return object1.compareTo(object2);
+                        Matcher m1 = p.matcher(object1);
+                        if (m1.find()) {
+                            return object2.compareTo(object1);
+                        } else {
+                            return object1.compareTo(object2);
+                        }
+                    } else {
+                        number2 = Integer.parseInt(m.group());
+                        int comparison = number1.compareTo(number2);
+                        if (comparison != 0) {
+                            return comparison;
+                        } else {
+                            return object1.compareTo(object2);
+                        }
+                    }
+                }
+            }
+        };
+
+		
         //write to CSV File
-		//Sort it using ascending order
-		TreeMap<String, List<UserDefineNode>> sortedMap = new TreeMap<String, List<UserDefineNode>>();
+		TreeMap<String, List<UserDefineNode>> sortedMap = new TreeMap<String, List<UserDefineNode>>(customSort);
 
 		sortedMap.putAll(outputMap);
         writeToCsvFile(sortedMap);
@@ -323,6 +366,7 @@ public class ConvertXMLToCsvService {
             String[] valueArr = value.toArray(new String[value.size()]);        	
         	outputList.add(valueArr);
         }
+        
         String[] array = header.toArray(new String[header.size()]);
         outputList.add(0, array);
 		return outputList;
