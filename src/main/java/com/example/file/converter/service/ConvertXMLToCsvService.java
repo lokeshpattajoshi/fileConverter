@@ -246,9 +246,16 @@ public class ConvertXMLToCsvService {
 	                  if(outputMap.get(offenderId) == null) {
 	                	  outputMap.put(offenderId, listOfNode);
 	                  }else {
-	                	  List<UserDefineNode> existingList = outputMap.get(offenderId);
-	                	  existingList.addAll(listOfNode);
-	                	  outputMap.put(offenderId, existingList);
+	                	  //Check for book number if offenderId exists
+	                	  String bookNumber = element.getElementsByTagName("BOOK_NUMBER").item(0).getTextContent();	                		  
+	                	  if(null != bookNumber && outputMap.get(bookNumber) == null) {
+	                		  offenderId = bookNumber;
+	                		  outputMap.put(offenderId, listOfNode);
+	                	  }else {
+		                	  List<UserDefineNode> existingList = outputMap.get(offenderId);
+		                	  existingList.addAll(listOfNode);
+		                	  outputMap.put(offenderId, existingList);	                		  
+	                	  }
 	                  }
 	              }
 	          }
