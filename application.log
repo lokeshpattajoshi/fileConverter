@@ -397,3 +397,82 @@ Caused by: java.lang.ClassCastException: class java.util.ArrayList cannot be cas
 2023-03-01 15:13:13,121 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.VR.xml
 2023-03-01 15:13:13,135 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] File Path where CSV file will be created is D:\output\20230206090000.csv
 2023-03-01 15:13:13,143 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing end...............................
+2023-03-01 18:54:43,645 INFO com.example.file.converter.FileConverterApplication [main] Starting FileConverterApplication using Java 17.0.6 with PID 9872 (C:\Users\lokesh\Documents\workspace-xml-to-csv\fileConverter\target\classes started by lokesh in C:\Users\lokesh\Documents\workspace-xml-to-csv\fileConverter)
+2023-03-01 18:54:43,648 DEBUG com.example.file.converter.FileConverterApplication [main] Running with Spring Boot v3.0.2, Spring v6.0.4
+2023-03-01 18:54:43,649 INFO com.example.file.converter.FileConverterApplication [main] No active profile set, falling back to 1 default profile: "default"
+2023-03-01 18:54:44,350 INFO com.example.file.converter.FileConverterApplication [main] Started FileConverterApplication in 1.278 seconds (process running for 2.139)
+2023-03-01 18:54:44,355 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing start....................
+2023-03-01 18:54:44,356 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Extracting .zip file D:\input\20230206090000.zip to D:\input\20230206090000
+2023-03-01 18:54:44,364 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] File Extracted successfully
+2023-03-01 18:54:44,424 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.A.xml
+2023-03-01 18:54:44,440 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.A.xml
+2023-03-01 18:54:44,441 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.CH.xml
+2023-03-01 18:54:44,453 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.CH.xml
+2023-03-01 18:54:44,453 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.ME.xml
+2023-03-01 18:54:44,458 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] OLD_OFFENDER_ID will become offender ID for this ME file.
+2023-03-01 18:54:44,483 ERROR com.example.file.converter.service.ConvertXMLToCsvService [main] Error while procesing file D:\input\20230206090000\TRANS.ME.xml Cannot invoke "org.w3c.dom.Node.getTextContent()" because the return value of "org.w3c.dom.NodeList.item(int)" is null
+2023-03-01 18:54:44,483 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.OA.xml
+2023-03-01 18:54:44,494 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.OA.xml
+2023-03-01 18:54:44,494 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.OD.xml
+2023-03-01 18:54:44,501 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.OD.xml
+2023-03-01 18:54:44,501 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.OI.xml
+2023-03-01 18:54:44,505 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.OI.xml
+2023-03-01 18:54:44,506 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.OR.xml
+2023-03-01 18:54:44,520 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.OR.xml
+2023-03-01 18:54:44,521 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.PD.xml
+2023-03-01 18:54:44,524 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.PD.xml
+2023-03-01 18:54:44,525 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.VA.xml
+2023-03-01 18:54:44,528 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 18:54:44,528 ERROR com.example.file.converter.service.ConvertXMLToCsvService [main] Error while procesing file D:\input\20230206090000\TRANS.VA.xml Cannot invoke "org.w3c.dom.Node.getTextContent()" because the return value of "org.w3c.dom.NodeList.item(int)" is null
+2023-03-01 18:54:44,529 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.VR.xml
+2023-03-01 18:54:44,534 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.VR.xml
+2023-03-01 18:54:44,546 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] File Path where CSV file will be created is D:\output\20230206090000.csv
+2023-03-01 18:54:44,576 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing end...............................
+2023-03-01 19:02:41,334 INFO com.example.file.converter.FileConverterApplication [main] Starting FileConverterApplication using Java 17.0.6 with PID 6692 (C:\Users\lokesh\Documents\workspace-xml-to-csv\fileConverter\target\classes started by lokesh in C:\Users\lokesh\Documents\workspace-xml-to-csv\fileConverter)
+2023-03-01 19:02:41,336 DEBUG com.example.file.converter.FileConverterApplication [main] Running with Spring Boot v3.0.2, Spring v6.0.4
+2023-03-01 19:02:41,338 INFO com.example.file.converter.FileConverterApplication [main] No active profile set, falling back to 1 default profile: "default"
+2023-03-01 19:02:42,029 INFO com.example.file.converter.FileConverterApplication [main] Started FileConverterApplication in 1.279 seconds (process running for 2.2)
+2023-03-01 19:02:42,033 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing start....................
+2023-03-01 19:02:42,034 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Extracting .zip file D:\input\20230206090000.zip to D:\input\20230206090000
+2023-03-01 19:02:42,041 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] File Extracted successfully
+2023-03-01 19:02:42,099 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.A.xml
+2023-03-01 19:02:42,117 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.A.xml
+2023-03-01 19:02:42,118 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.CH.xml
+2023-03-01 19:02:42,130 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.CH.xml
+2023-03-01 19:02:42,130 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.ME.xml
+2023-03-01 19:02:42,136 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] OLD_OFFENDER_ID will become offender ID for this ME file.
+2023-03-01 19:02:42,136 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] OLD_OFFENDER_ID will become offender ID for this ME file.
+2023-03-01 19:02:42,137 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] OLD_OFFENDER_ID will become offender ID for this ME file.
+2023-03-01 19:02:42,137 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] OLD_OFFENDER_ID will become offender ID for this ME file.
+2023-03-01 19:02:42,138 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] OLD_OFFENDER_ID will become offender ID for this ME file.
+2023-03-01 19:02:42,138 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] OLD_OFFENDER_ID will become offender ID for this ME file.
+2023-03-01 19:02:42,138 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] OLD_OFFENDER_ID will become offender ID for this ME file.
+2023-03-01 19:02:42,138 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] OLD_OFFENDER_ID will become offender ID for this ME file.
+2023-03-01 19:02:42,139 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] OLD_OFFENDER_ID will become offender ID for this ME file.
+2023-03-01 19:02:42,139 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.ME.xml
+2023-03-01 19:02:42,139 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.OA.xml
+2023-03-01 19:02:42,145 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.OA.xml
+2023-03-01 19:02:42,145 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.OD.xml
+2023-03-01 19:02:42,156 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.OD.xml
+2023-03-01 19:02:42,156 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.OI.xml
+2023-03-01 19:02:42,160 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.OI.xml
+2023-03-01 19:02:42,161 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.OR.xml
+2023-03-01 19:02:42,172 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.OR.xml
+2023-03-01 19:02:42,172 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.PD.xml
+2023-03-01 19:02:42,176 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.PD.xml
+2023-03-01 19:02:42,177 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.VA.xml
+2023-03-01 19:02:42,180 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 19:02:42,181 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 19:02:42,182 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 19:02:42,182 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 19:02:42,183 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 19:02:42,184 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 19:02:42,185 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 19:02:42,185 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 19:02:42,186 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 19:02:42,186 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Victim_ID will become offender ID for this VA file.
+2023-03-01 19:02:42,186 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.VA.xml
+2023-03-01 19:02:42,187 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file starts.D:\input\20230206090000\TRANS.VR.xml
+2023-03-01 19:02:42,191 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing file successful for D:\input\20230206090000\TRANS.VR.xml
+2023-03-01 19:02:42,209 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] File Path where CSV file will be created is D:\output\20230206090000.csv
+2023-03-01 19:02:42,219 INFO com.example.file.converter.service.ConvertXMLToCsvService [main] Processing end...............................

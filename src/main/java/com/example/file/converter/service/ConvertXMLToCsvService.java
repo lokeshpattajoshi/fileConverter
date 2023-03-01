@@ -215,6 +215,18 @@ public class ConvertXMLToCsvService {
 	                	  String victimId = element.getElementsByTagName("VICTIM_ID").item(0).getTextContent();
 	                	  logger.info("Victim_ID will become offender ID for this VA file.");
 	                	  offenderId = vrVsOffenderMappingMap.get(victimId);
+
+		                 addNode(prefix, element, listOfNode, null, null);
+		                  if(outputMap.get(offenderId) == null) {
+		                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
+		                	  listOfList.add(listOfNode);
+		                	  outputMap.put(offenderId, listOfList);
+		                  }else {
+	                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
+	                		  listOfList.get(0).addAll(listOfNode);
+		                	  outputMap.put(offenderId, listOfList);	                		  
+		                  }
+
 	                  }else if("ME".equalsIgnoreCase(prefix)) {
 	                	  String oldOffenderId = element.getElementsByTagName("OLD_OFFENDER_ID").item(0).getTextContent();
 	                	  String newOffenderId = element.getElementsByTagName("NEW_OFFENDER_ID").item(0).getTextContent();
@@ -259,19 +271,17 @@ public class ConvertXMLToCsvService {
 		                  }else {
 	                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
 	                		  List<UserDefineNode> listTobeAdded = checkIfBookNumberExistsForOffenderId(bookNumber, offenderId, listOfList);
-	                		  
 		                	  if(null != listTobeAdded) {
 		                		  listTobeAdded.addAll(listOfNode);
 			                	  outputMap.put(offenderId, listOfList);	                		  
 		                	  }else {
-		                		  
 		                		  listOfList.add(listOfNode);
 			                	  outputMap.put(offenderId, listOfList);	                		  
 		                	  }
 		                  }
-	                	  
 	                  }	     
-	                  
+
+
 	                  //Check if node already exists addAll
 	                  /*if(outputMap.get(offenderId) == null) {
 	                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
@@ -314,6 +324,8 @@ public class ConvertXMLToCsvService {
 						&& node.getBookNumber().equalsIgnoreCase(bookNumber)
 						&& node.getOffenderId().equalsIgnoreCase(offenderId)) {
 					return listOfNode;
+				}else {
+					break;
 				}
 			}
 		}
