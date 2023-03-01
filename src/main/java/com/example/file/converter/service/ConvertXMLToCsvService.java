@@ -233,7 +233,7 @@ public class ConvertXMLToCsvService {
 	                		  logger.error("No Offender ID found for this INMATE. Please check the input. Will proceed with other records");
 	                		  continue;
 	                	  }
-		                  addNode(prefix, element, listOfNode);
+		                  addNode(prefix, element, listOfNode, null, null);
 		                  if(outputMap.get(offenderId) == null) {
 		                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
 		                	  listOfList.add(listOfNode);
@@ -249,26 +249,29 @@ public class ConvertXMLToCsvService {
 	                		  logger.error("No Offender ID found for this INMATE. Please check the input. Will proceed with other records");
 	                		  continue;
 	                	  }
-		                  addNode(prefix, element, listOfNode);
+	                	  String bookNumber = element.getElementsByTagName("BOOK_NUMBER").item(0).getTextContent();	                		  
+	                	  addNode(prefix, element, listOfNode, offenderId, bookNumber);
 		                  
 		                  if(outputMap.get(offenderId) == null) {
 		                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
 		                	  listOfList.add(listOfNode);
 		                	  outputMap.put(offenderId, listOfList);
 		                  }else {
-		                	  String bookNumber = element.getElementsByTagName("BOOK_NUMBER").item(0).getTextContent();	                		  
-		                	  if(null != bookNumber && outputMap.get(bookNumber) == null) {
-		                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
-		                		  listOfList.add(listOfNode);
+	                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
+	                		  List<UserDefineNode> listTobeAdded = checkIfBookNumberExistsForOffenderId(bookNumber, offenderId, listOfList);
+	                		  
+		                	  if(null != listTobeAdded) {
+		                		  listTobeAdded.addAll(listOfNode);
 			                	  outputMap.put(offenderId, listOfList);	                		  
 		                	  }else {
-		                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
-		                		  listOfList.get(0).addAll(listOfNode);
+		                		  
+		                		  listOfList.add(listOfNode);
 			                	  outputMap.put(offenderId, listOfList);	                		  
 		                	  }
 		                  }
 	                	  
-	                  }	                  
+	                  }	     
+	                  
 	                  //Check if node already exists addAll
 	                  /*if(outputMap.get(offenderId) == null) {
 	                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
@@ -303,9 +306,25 @@ public class ConvertXMLToCsvService {
 		return outputMap;
 	}
 	
+	private List<UserDefineNode> checkIfBookNumberExistsForOffenderId(String bookNumber, String offenderId, List<List<UserDefineNode>> listOfList) {
+		for(List<UserDefineNode> listOfNode: listOfList) {
+			for(UserDefineNode node: listOfNode) {
+				if(null != node.getBookNumber() 
+						&& null != node.getOffenderId()
+						&& node.getBookNumber().equalsIgnoreCase(bookNumber)
+						&& node.getOffenderId().equalsIgnoreCase(offenderId)) {
+					return listOfNode;
+				}
+			}
+		}
+		return null;
+	}
+	
 	private void addNode(String prefix, 
 			Node node, 
-			List<UserDefineNode> listOfNode ) {
+			List<UserDefineNode> listOfNode,
+			String offenderId,
+			String bookNumber) {
 		
         if (node.hasChildNodes()){
       	  NodeList childNodeList = node.getChildNodes();
@@ -315,7 +334,7 @@ public class ConvertXMLToCsvService {
           	  if(Node.ELEMENT_NODE == elemNode.getNodeType()) {
           		  /*if(null != elemNode.getTextContent() && 
           				  !"".equals(elemNode.getTextContent().trim())) { */
-          			  
+
           			  String nodeName = elemNode.getNodeName();
           	      	  String value = elemNode.getTextContent();
           	      	  //We have logic below to read all the duplicate elements if there is any so below logic is to skip we find it again
@@ -343,7 +362,8 @@ public class ConvertXMLToCsvService {
           	        			header = header+"_"+counter;
           	        		  }
                   	      	  UserDefineNode userDefineNode = new UserDefineNode();
-                  	      	  
+                  	      	  userDefineNode.setBookNumber(bookNumber);
+                  	      	  userDefineNode.setOffenderId(offenderId);
                   	      	  userDefineNode.setHeader(header);
                   	      	  userDefineNode.setValue(val);
                   	      	  listOfNode.add(userDefineNode);  
@@ -352,7 +372,8 @@ public class ConvertXMLToCsvService {
           	          }else {
               	      	  String header = prefix+"_"+nodeName;
               	      	  UserDefineNode userDefineNode = new UserDefineNode();
-              	      	  
+              	      	  userDefineNode.setBookNumber(bookNumber);
+              	      	  userDefineNode.setOffenderId(offenderId);
               	      	  userDefineNode.setHeader(header);
               	      	  userDefineNode.setValue(value);
               	      	  listOfNode.add(userDefineNode);          	        	  

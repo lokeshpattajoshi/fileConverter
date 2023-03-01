@@ -3,6 +3,9 @@ package com.example.file.converter.service;
 public class UserDefineNode {
 
 	private String header;
+	private String value;
+	private String offenderId;
+	private String bookNumber;
 	
 	
 	public String getHeader() {
@@ -11,7 +14,6 @@ public class UserDefineNode {
 	public void setHeader(String header) {
 		this.header = header;
 	}
-	private String value;
 	
 	public String getValue() {
 		return value;
@@ -19,11 +21,23 @@ public class UserDefineNode {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	public String getOffenderId() {
+		return offenderId;
+	}
+	public void setOffenderId(String offenderId) {
+		this.offenderId = offenderId;
+	}
+	public String getBookNumber() {
+		return bookNumber;
+	}
+	public void setBookNumber(String bookNumber) {
+		this.bookNumber = bookNumber;
+	}
 	@Override
 	public String toString() {
-		return "NodeValue [header=" + header + ", value=" + value + "]";
+		return "UserDefineNode [header=" + header + ", value=" + value + ", offenderId=" + offenderId + ", bookNumber="
+				+ bookNumber + "]";
 	}
-	
 	
 	
 }
