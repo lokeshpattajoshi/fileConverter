@@ -70,7 +70,7 @@ public class ConvertXMLToCsvService {
 		String manifiestFilePath ="Manifest.xml";
 		manifiestFilePath = destinationFilePath+"\\" + manifiestFilePath;
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		Map<String, List<UserDefineNode>> outputMap = new HashMap<String, List<UserDefineNode>>();
+		Map<String, List<List<UserDefineNode>>> outputMap = new HashMap<String, List<List<UserDefineNode>>>();
 		try {
 	          DocumentBuilder db = dbf.newDocumentBuilder();
 	          Document doc = db.parse(new File(manifiestFilePath));
@@ -147,7 +147,7 @@ public class ConvertXMLToCsvService {
 
 		
         //write to CSV File
-		TreeMap<String, List<UserDefineNode>> sortedMap = new TreeMap<String, List<UserDefineNode>>(customSort);
+		TreeMap<String, List<List<UserDefineNode>>> sortedMap = new TreeMap<String, List<List<UserDefineNode>>>(customSort);
 
 		sortedMap.putAll(outputMap);
         writeToCsvFile(sortedMap);
@@ -187,8 +187,8 @@ public class ConvertXMLToCsvService {
         }
 	}
 	
-	private Map<String, List<UserDefineNode>> readXMLFile(String fileName,
-			Map<String, List<UserDefineNode>> outputMap) {
+	private Map<String, List<List<UserDefineNode>>> readXMLFile(String fileName,
+			Map<String, List<List<UserDefineNode>>> outputMap) {
 	    
 		logger.info("Processing file starts."+fileName);
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();	      
@@ -229,34 +229,70 @@ public class ConvertXMLToCsvService {
 	                	  }else {
 	                		  offenderId = newOffenderId;
 	                	  }
+	                	  if(offenderId == null) {
+	                		  logger.error("No Offender ID found for this INMATE. Please check the input. Will proceed with other records");
+	                		  continue;
+	                	  }
+		                  addNode(prefix, element, listOfNode);
+		                  if(outputMap.get(offenderId) == null) {
+		                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
+		                	  listOfList.add(listOfNode);
+		                	  outputMap.put(offenderId, listOfList);
+		                  }else {
+	                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
+	                		  listOfList.get(0).addAll(listOfNode);
+		                	  outputMap.put(offenderId, listOfList);	                		  
+		                  }
 	                  }else {
 	                	  offenderId = element.getElementsByTagName("OFFENDER_ID").item(0).getTextContent();
-	                	  if(null == offenderId) {
-	                		  logger.warn("Offender_ID is missing so considering Book_Number..");
-		                	  offenderId = element.getElementsByTagName("BOOK_NUMBER").item(0).getTextContent();	                		  
+	                	  if(offenderId == null) {
+	                		  logger.error("No Offender ID found for this INMATE. Please check the input. Will proceed with other records");
+	                		  continue;
 	                	  }
-	                  }
-                	  if(offenderId == null) {
-                		  logger.error("No Offender ID found for this INMATE. Please check the input. Will proceed with other records");
-                		  continue;
-                	  }
-	                  addNode(prefix, element, listOfNode);
-	                  
+		                  addNode(prefix, element, listOfNode);
+		                  
+		                  if(outputMap.get(offenderId) == null) {
+		                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
+		                	  listOfList.add(listOfNode);
+		                	  outputMap.put(offenderId, listOfList);
+		                  }else {
+		                	  String bookNumber = element.getElementsByTagName("BOOK_NUMBER").item(0).getTextContent();	                		  
+		                	  if(null != bookNumber && outputMap.get(bookNumber) == null) {
+		                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
+		                		  listOfList.add(listOfNode);
+			                	  outputMap.put(offenderId, listOfList);	                		  
+		                	  }else {
+		                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
+		                		  listOfList.get(0).addAll(listOfNode);
+			                	  outputMap.put(offenderId, listOfList);	                		  
+		                	  }
+		                  }
+	                	  
+	                  }	                  
 	                  //Check if node already exists addAll
-	                  if(outputMap.get(offenderId) == null) {
-	                	  outputMap.put(offenderId, listOfNode);
+	                  /*if(outputMap.get(offenderId) == null) {
+	                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
+	                	  listOfList.add(listOfNode);
+	                	  outputMap.put(offenderId, listOfList);
 	                  }else {
 	                	  //Check for book number if offenderId exists
 	                	  String bookNumber = element.getElementsByTagName("BOOK_NUMBER").item(0).getTextContent();	                		  
 	                	  if(null != bookNumber && outputMap.get(bookNumber) == null) {
-	                		  offenderId = bookNumber;
-	                		  outputMap.put(offenderId, listOfNode);
+	                		  if(outputMap.get(offenderId) == null) {
+			                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
+			                	  listOfList.add(listOfNode);
+		                		  outputMap.put(offenderId, listOfList);	                			  
+	                		  }else {
+		                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
+		                		  listOfList.add(listOfNode);
+			                	  outputMap.put(offenderId, listOfList);	                		  
+	                		  }
 	                	  }else {
-		                	  List<UserDefineNode> existingList = outputMap.get(offenderId);
-		                	  existingList.addAll(listOfNode);
-		                	  outputMap.put(offenderId, existingList);	                		  
+	                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
+	                		  listOfList.get(0).addAll(listOfNode);
+		                	  outputMap.put(offenderId, listOfList);	                		  
 	                	  }
-	                  }
+	                  }*/
 	              }
 	          }
 	  		logger.info("Processing file successful for "+fileName);
@@ -328,7 +364,7 @@ public class ConvertXMLToCsvService {
         }  		
 	}
 	
-	private void writeToCsvFile(Map<String, List<UserDefineNode>> outputMap) {
+	private void writeToCsvFile(Map<String,List<List<UserDefineNode>>> outputMap) {
 		List<String[]> csvData = createCsvDataSimple(outputMap);
 		try {
 			String filePath = csvFilePath + zipFileName +".csv";
@@ -342,15 +378,16 @@ public class ConvertXMLToCsvService {
 		}
 	}
 	
-	private List<String[]> createCsvDataSimple(Map<String, List<UserDefineNode>> outputMap) {
+	private List<String[]> createCsvDataSimple(Map<String, List<List<UserDefineNode>>> outputMap) {
 		List<String[]> outputList = new ArrayList<>();
 		int count = 0;
     	List<String> header  = new ArrayList<>();
     	header.add("Id");
     	//Create Header first
-    	for (Map.Entry<String, List<UserDefineNode>> entry : outputMap.entrySet()) {
-        	List<UserDefineNode> nodeList = entry.getValue();
-        	for(UserDefineNode node: nodeList) {
+    	for (Map.Entry<String, List<List<UserDefineNode>>> entry : outputMap.entrySet()) {
+        	List<List<UserDefineNode>> nodeList = entry.getValue();
+        	for(List<UserDefineNode> nodeListInner: nodeList) {
+        		for(UserDefineNode node: nodeListInner)
         		if(!header.contains(node.getHeader())) {
             		header.add(node.getHeader());
         		}
@@ -358,20 +395,22 @@ public class ConvertXMLToCsvService {
     	}
     	
     	//Create values to row
-        for (Map.Entry<String, List<UserDefineNode>> entry : outputMap.entrySet()) {
-        	List<String> value = new ArrayList<>();
-        	String offenderId = entry.getKey();
-        	//First column value should be offenderId
-        	value.add(offenderId);
-        	List<UserDefineNode> nodeList = entry.getValue();
-        	//Initialize list to empty String
-        	addEmptyValueToList(value, header.size());
-        	for(UserDefineNode node: nodeList) {
-    			int index = header.indexOf(node.getHeader());
-    			value.set(index, node.getValue());
+    	
+        for (Map.Entry<String, List<List<UserDefineNode>>> entryList : outputMap.entrySet()) {
+        	for(List<UserDefineNode> nodeList: entryList.getValue()) {
+            	List<String> value = new ArrayList<>();
+            	String offenderId = entryList.getKey();
+            	//First column value should be offenderId
+            	value.add(offenderId);
+            	//Initialize list to empty String
+            	addEmptyValueToList(value, header.size());
+            	for(UserDefineNode node: nodeList) {
+        			int index = header.indexOf(node.getHeader());
+        			value.set(index, node.getValue());
+            	}
+                String[] valueArr = value.toArray(new String[value.size()]);        	
+            	outputList.add(valueArr);        		
         	}
-            String[] valueArr = value.toArray(new String[value.size()]);        	
-        	outputList.add(valueArr);
         }
         
         String[] array = header.toArray(new String[header.size()]);
