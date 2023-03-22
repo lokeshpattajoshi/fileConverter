@@ -311,6 +311,11 @@ public class ConvertXMLToCsvService {
 						//If duplicate exists in same file then create new records.
 						return null;
 					}else {
+						//Suppose OA has 2 records with 200-4000 and A already has that then second record should be created in new row
+						//Check same record has already filled up so create new record
+						if(checkIfAlreadyRecordExists(prefix, listOfNode)) {
+							return null;
+						}
 						//If duplicate exists in different file then merge
 						return listOfNode;
 					}
@@ -321,7 +326,16 @@ public class ConvertXMLToCsvService {
 		return null;
 	}
 
-	
+	private boolean checkIfAlreadyRecordExists(String prefix, 
+			List<UserDefineNode> listOfNode) {
+		for(UserDefineNode node: listOfNode) {
+			if(node.getHeader().startsWith(prefix+"_") 
+					&& null != node.getValue()) {
+				return true;
+			}
+		}
+		return false;
+	}
 	private void addNode(String prefix, 
 			Node node, 
 			List<UserDefineNode> listOfNode,
