@@ -270,7 +270,11 @@ public class ConvertXMLToCsvService {
 		                	  outputMap.put(offenderId, listOfList);
 		                  }else {
 	                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
-	                		  List<UserDefineNode> listTobeAdded = checkIfBookNumberExistsForOffenderId(bookNumber, offenderId, listOfList);
+	                		  List<UserDefineNode> listTobeAdded = checkIfBookNumberExistsForOffenderId(bookNumber, 
+																	                				  offenderId, 
+																	                				  prefix, 
+																	                				  listOfList,
+																	                				  listOfNode);
 		                	  if(null != listTobeAdded) {
 		                		  listTobeAdded.addAll(listOfNode);
 			                	  outputMap.put(offenderId, listOfList);	                		  
@@ -281,31 +285,6 @@ public class ConvertXMLToCsvService {
 		                  }
 	                  }	     
 
-
-	                  //Check if node already exists addAll
-	                  /*if(outputMap.get(offenderId) == null) {
-	                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
-	                	  listOfList.add(listOfNode);
-	                	  outputMap.put(offenderId, listOfList);
-	                  }else {
-	                	  //Check for book number if offenderId exists
-	                	  String bookNumber = element.getElementsByTagName("BOOK_NUMBER").item(0).getTextContent();	                		  
-	                	  if(null != bookNumber && outputMap.get(bookNumber) == null) {
-	                		  if(outputMap.get(offenderId) == null) {
-			                	  List<List<UserDefineNode>> listOfList = new ArrayList<>();
-			                	  listOfList.add(listOfNode);
-		                		  outputMap.put(offenderId, listOfList);	                			  
-	                		  }else {
-		                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
-		                		  listOfList.add(listOfNode);
-			                	  outputMap.put(offenderId, listOfList);	                		  
-	                		  }
-	                	  }else {
-	                		  List<List<UserDefineNode>> listOfList = outputMap.get(offenderId);
-	                		  listOfList.get(0).addAll(listOfNode);
-		                	  outputMap.put(offenderId, listOfList);	                		  
-	                	  }
-	                  }*/
 	              }
 	          }
 	  		logger.info("Processing file successful for "+fileName);
@@ -314,23 +293,34 @@ public class ConvertXMLToCsvService {
 			logger.error("Error while procesing file "+fileName +" "+e.getMessage());
 		}
 		return outputMap;
-	}
+	}		
 	
-	private List<UserDefineNode> checkIfBookNumberExistsForOffenderId(String bookNumber, String offenderId, List<List<UserDefineNode>> listOfList) {
+	private List<UserDefineNode> checkIfBookNumberExistsForOffenderId(String bookNumber, 
+																		String offenderId, 
+																		String prefix, 
+																		List<List<UserDefineNode>> listOfList,
+																		List<UserDefineNode> newNode) {
 		for(List<UserDefineNode> listOfNode: listOfList) {
 			for(UserDefineNode node: listOfNode) {
 				if(null != node.getBookNumber() 
 						&& null != node.getOffenderId()
 						&& node.getBookNumber().equalsIgnoreCase(bookNumber)
-						&& node.getOffenderId().equalsIgnoreCase(offenderId)) {
-					return listOfNode;
-				}else {
-					break;
+						&& node.getOffenderId().equalsIgnoreCase(offenderId) ) {
+					if(null != node.getValue() 
+							&& node.getValue().equalsIgnoreCase(prefix)) {
+						//If duplicate exists in same file then create new records.
+						return null;
+					}else {
+						//If duplicate exists in different file then merge
+						return listOfNode;
+					}
+					
 				}
 			}
 		}
 		return null;
 	}
+
 	
 	private void addNode(String prefix, 
 			Node node, 
